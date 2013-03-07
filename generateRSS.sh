@@ -18,6 +18,15 @@ function urlencode() {
 	echo "${url}"
 }
 
+for binary in ${ffmpegBin} ${ffmpegthumbnailerBin} ${handbrakeBin}
+do
+	if [ ! -x ${binary} ];
+	then
+		echo "${binary} does not exists, please install it."
+		exit 1
+	fi
+done
+
 cleanTitle1=${inputFile%.*}
 cleanTitle=${cleanTitle1##*/}
 outputFile="${cleanTitle}.m4v"
