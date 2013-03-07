@@ -5,6 +5,7 @@ imageDir="images"
 rssDir="rss"
 contentDir="content"
 thumbSize="512"
+ffmpegBin="/usr/bin/ffmpeg"
 ffmpegthumbnailerBin="/usr/bin/ffmpegthumbnailer"
 handbrakeBin="/usr/bin/HandBrakeCLI"
 handbrakePreset="iPad"
@@ -56,9 +57,9 @@ else
 	description="N/A"
 fi
 
-audioLanguage=$(ffmpeg -i "${inputFile}" 2>&1| grep Audio | grep eng | awk '{print $2}' | cut -f2 -d "." | cut -f1 -d"(")
+audioLanguage=$(${ffmpegBin} -i "${inputFile}" 2>&1| grep Audio | grep eng | awk '{print $2}' | cut -f2 -d "." | cut -f1 -d"(")
 pubDate=$(date -R)
-duration=$(ffmpeg -i "${inputFile}" 2>&1 | grep "Duration" | awk '{print $2}' | sed 's/,//' | cut -f1 -d".")
+duration=$(${ffmpegBin} -i "${inputFile}" 2>&1 | grep "Duration" | awk '{print $2}' | sed 's/,//' | cut -f1 -d".")
 md5sum=$(${md5sumBin} "${inputFile}" | awk '{print $1}')
 episode=$(echo "${cleanTitle}" | cut -f2 -d "-" | awk -Fx '{print $2}' | tr -d " ")
 season=$(echo "${cleanTitle}" | cut -f2 -d "-" | awk -Fx '{print $1}' | tr -d " ")
